@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallacea Terminal</title>
+    <link href="style/output.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
+    <script src="https://unpkg.com/leaflet-gesture-handling"></script>
+</head>
+<body class="font-sans">
+    <!-- login -->
+    <div class="max-w-6xl mx-auto flex justify-end py-1 px-2">
+        <a href="" class="flex gap-1 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+            <span class="text-sm font-light">Login</span>
+        </a>
+    </div>
+
+    <!-- info terbaru? -->
+    <div class="bg-biru-wallacea py-1 text-center sm:border-none border-b border-gray-50 px-4">
+        <a href="#" class="uppercase text-kuning-wallacea font-bold">INFO TERBARU DI WEBSITE INI</a>
+    </div>
+
+    <!-- navbar -->
+    <!-- top sm -->
+    <header x-data="{open: false, searchsm:false}" class="sticky top-0 z-20 ">
+        <div  class="bg-biru-wallacea lg:hidden block py-6">
+            <div x-show="!searchsm" class="flex justify-between px-4 items-center">
+                <svg @click="open=true"  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <img src="assets/logo-wallacea-putih.png" alt="papua betahita" class="h-8">
+                <svg @click="searchsm = true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div x-show="searchsm" @click.away="searchsm=false" class="max-w-5xl mx-auto px-4" style="display: none !important;">
+                <form action="#" method="get" class="flex justify-between items-center relative">
+                    <input class="border border-white px-4 py-2 bg-gray-200 w-full" type="text" placeholder="Search. . .">
+                    <svg  xmlns="http://www.w3.org/2000/svg" class="absolute right-3 h-6 w-6 text-black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </form>
+            </div>
+        </div>
+        <div class="fixed w-3/4 h-screen z-30 bg-biru-wallacea inset-0 overflow-y-auto" 
+        x-transition:enter="transition ease-in-out duration-150"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in-out duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click.outside="open = false"
+        x-cloak style="display: none !important"
+        x-show="open">
+            <button class="absolute px-6 py-6 focus:outline-none text-white" @click="open = false">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="white" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mt-16 space-y-3 ">
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">TAMBANG<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">HUTAN<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">ENERGI<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">KONSERVASI<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">ANALISIS<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+                <div class="px-6" x-data="{open:false}">
+                    <div class="flex items-center px-4" @click="open=!open" @clic.away="open=false">
+                        <a class="inline-block text-base leading-5 text-white uppercase">
+                            MULTIMEDIA                            
+                        </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 ml-1 -mb-1 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div x-show="open" class="mt-3 flex flex-col justify-center px-6 space-y-1 py-2" style="display: none !important;">
+                        <a href="#" class="text-red-500">FOTO</a>
+                        <a href="#" class="text-red-500">VIDEO</a>
+                        <a href="#" class="text-red-500">PODCAST</a>
+                        <a href="#" class="text-red-500">INFOGRAGIS</a>
+                    </div>
+                    <p class="border-b border-gray-300 mt-4"></p>
+                </div>
+                <div class="px-6">
+                    <a href="#"   class="mb-4 px-4 inline-block text-base leading-5 text-white uppercase">BUMI KITA<a>
+                    <p class="border-b border-gray-300"></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top pc-->
+    <div class="py-6  sm:block hidden"  x-data="{border:false, search:false}" @scroll.window="border = (window.pageYOffset > 50) ? true : false" >
+        <div :class="border ? 'border-t border-b border-black py-4' : 'border-t border-b border-white py-3'" >
+            <div x-show="!search" class="max-w-6xl flex items-center justify-between mx-auto px-4" x-data="{ pages: false }">
+                <img src="assets/logo-wallacea.png" alt="Wallacea Terminal" class="h-12 ">
+
+                <div class="flex gap-12 items-center">
+                    <a href="" class="uppercase text-biru-wallacea font-bold">NEWS</a>
+                    <a href="" class="uppercase text-biru-wallacea">RISET</a>
+                    <a href="" class="uppercase text-biru-wallacea">AKSI</a>
+                    <a href="" class="uppercase text-biru-wallacea">REGULASI</a>
+                    <a href="" class="uppercase text-biru-wallacea">DATA</a>
+                </div>
+                
+                <a href="#">                
+                    <svg @click="search =! search" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+            <div x-show="search" @click.away="search=false" class="max-w-5xl mx-auto" style="display: none !important;">
+                <form action="#" method="get" class="flex justify-between items-center relative">
+                    <input class="border border-white px-4 py-2 bg-gray-200 w-full focus:outline-none" type="text" placeholder="Search. . .">
+                    <svg  xmlns="http://www.w3.org/2000/svg" class="absolute right-3 h-6 w-6 text-black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- nasional -->
+    <div class="border-b border-t border-kuning py-2 flex justify-center gap-12 font-light">
+        <a href="#">Internasional</a>
+        <a href="#" class="border-b border-biru">Nasional</a>
+    </div> 
+    <div class="sm:hidden flex gap-4 px-4 overflow-y-auto scrollbar-hide">
+        <div class="py-3  text-sm whitespace-nowrap">
+            Sulawesi Tengah
+        </div>
+        <div class="py-3  text-sm whitespace-nowrap">
+            Sulawesi Tenggara
+        </div>
+        <div class="py-3  text-sm whitespace-nowrap">
+            Maluku
+        </div>
+        <div class="py-3  text-sm whitespace-nowrap">
+            Maluku Utara
+        </div>
+        <div class="py-3  text-sm whitespace-nowrap">
+            Papua
+        </div>
+    </div>
+
+    <!-- hero -->
+    <div class="max-w-6xl mx-auto flex sm:flex-row flex-col gap-10 mt-12 px-4">
+        <div class="sm:flex hidden flex-col border-t-4 border-t-kuning  sm:w-3/12 w-0 ">
+            <div class="border-b-[0.5px] py-3 border-b-gray-500">
+                Internasional
+            </div>
+            <div class="border-b-[0.5px] py-3 border-b-gray-500">
+                Nasional
+            </div>
+            <div class="pl-8 border-b-[0.5px] py-3 border-b-gray-500 text-sm">
+                Sulawesi Tengah
+            </div>
+            <div class="pl-8 border-b-[0.5px] py-3 border-b-gray-500 text-sm">
+                Sulawesi Tenggara
+            </div>
+            <div class="pl-8 border-b-[0.5px] py-3 border-b-gray-500 text-sm">
+                Maluku
+            </div>
+            <div class="pl-8 border-b-[0.5px] py-3 border-b-gray-500 text-sm">
+                Maluku Utara
+            </div>
+            <div class="pl-8 border-b-[0.5px] py-3 border-b-gray-500 text-sm">
+                Papua
+            </div>
+        </div>
+        <div class="sm:w-9/12 w-full flex sm:flex-row flex-col gap-6">
+            <div class="flex flex-col">
+                <div>
+                    <img src="assets/example.png" alt="Wallacea Terminal" class="h-72 w-full object-cover object-center">
+                    <p class="text-right text-xss mt-1">Yudi Nofiandi/Auriga Nusantara</p>
+                </div>
+                <a class="font-light text-sm mt-4">29 Januari 2024</a>
+                <a href="#" class="font-bold">Pemutihan Sawit: Banyak Raksasa, Tak Ada Sawit Masyarakat</a>
+                <p class="mt-3 font-light text-sm">RSPO dituding cuma menjadi alat greenwashing perusahaan-
+                    perusahaan sawit. RSPO merespon dengan mengatakan mereka
+                    kudu hati-hati.</p>
+                
+            </div>
+            <div class="flex flex-col">
+                <div>
+                    <img src="assets/example.png" alt="Wallacea Terminal" class="h-72 w-full object-cover object-center">
+                    <p class="text-right text-xss mt-1">Yudi Nofiandi/Auriga Nusantara</p>
+                </div>
+                <a class="font-light text-sm mt-4">29 Januari 2024</a>
+                <a href="#" class="font-bold">Pemutihan Sawit: Banyak Raksasa, Tak Ada Sawit Masyarakat</a>
+                <p class="mt-3 font-light text-sm">RSPO dituding cuma menjadi alat greenwashing perusahaan-
+                    perusahaan sawit. RSPO merespon dengan mengatakan mereka
+                    kudu hati-hati.</p>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- riset -->
+    <div class="max-w-6xl mx-auto px-4 mt-24">
+        <div class="flex items-center gap-2">
+            <a href="#" class="text-4xl font-bold text-biru-wallacea">RISET</a>
+            <div class="rounded-full h-8 w-8 border-2 border-biru flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-4 h-4 ">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                  </svg>                  
+            </div>
+        </div>
+
+        <div class="flex sm:flex-row flex-col gap-10 mt-6">
+            <div class="flex flex-col sm:w-6/12 w-full">
+                <a class="font-bold text-biru uppercase">JURNAL PENELITIAN</a>
+                <div>
+                    <img src="assets/example.png" alt="Wallacea Terminal" class="h-[450px] w-full object-cover object-center">
+                    <p class="text-right text-xss mt-1">Yudi Nofiandi/Auriga Nusantara</p>
+                </div>
+                <a class="font-light text-sm mt-4">29 Januari 2024</a>
+                <a href="#" class="font-bold">Pemutihan Sawit: Banyak Raksasa, Tak Ada Sawit Masyarakat</a>
+                <p class="mt-3 font-light text-sm">RSPO dituding cuma menjadi alat greenwashing perusahaan-
+                    perusahaan sawit. RSPO merespon dengan mengatakan mereka
+                    kudu hati-hati.</p>
+                
+            </div>
+            <div class="flex flex-col sm:w-6/12 w-full">
+                <a class="font-bold text-biru uppercase">ARTIKEL ILMIAH</a>
+
+                <div>
+                    <img src="assets/example.png" alt="Wallacea Terminal" class="h-[450px] w-full object-cover object-center">
+                    <p class="text-right text-xss mt-1">Yudi Nofiandi/Auriga Nusantara</p>
+                </div>
+                <a class="font-light text-sm mt-4">29 Januari 2024</a>
+                <a href="#" class="font-bold">Pemutihan Sawit: Banyak Raksasa, Tak Ada Sawit Masyarakat</a>
+                <p class="mt-3 font-light text-sm">RSPO dituding cuma menjadi alat greenwashing perusahaan-
+                    perusahaan sawit. RSPO merespon dengan mengatakan mereka
+                    kudu hati-hati.</p>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- aksi / highlight -->
+    <div class="bg-biru-wallacea mt-24 py-24">
+        <div class="max-w-6xl mx-auto flex sm:flex-row flex-col px-4 items-center gap-10">
+            <img src="assets/example.png" alt="Wallacea Terminal" class="h-96 sm:w-6/12 w-full object-cover object-center">
+            <div class="flex flex-col">
+                <div class="flex  items-center gap-2">
+                    <a href="#" class="text-3xl font-bold text-kuning-wallacea">AKSI</a>
+                    <div class="rounded-full h-6 w-6 border-2 border-kuning flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-3 h-3 text-kuning-wallacea">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                          </svg>                  
+                    </div>
+                </div>
+                <a class="text-white text-4xl font-bold mt-4" href="#">Wajah Sebenarnya Hilirisasi Nikel ala Cawapres Menurut OMS</a>
+                <p class="mt-4 text-white">Saling serang soal hilirisasi hanya menggambarkan
+                    tabiat elite politik soal kepentingan industri bukan
+                    soal dampak (Kalau bisa maksimal 150 karakter).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- regulasi -->
+    <div class="max-w-6xl mx-auto px-4 mt-24">
+        <div class="flex items-center gap-2">
+            <a href="#" class="text-4xl font-bold text-biru-wallacea">REGULASI</a>
+            <div class="rounded-full h-8 w-8 border-2 border-biru flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-4 h-4 ">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                  </svg>                  
+            </div>
+        </div>
+
+        <div class=" flex gap-6 py-12 scrollbar-hide overflow-x-scroll  snap-x snap-mandatory">
+            <div class=" w-72 h-full sm:flex-shrink flex-shrink-0 snap-center">
+                <a class="text-sm font-semibold">LEGAL BRIEF HUKUM</a>
+                <img src="assets/example-2.png" alt="Wallacea Terminal" class=" object-cover object-center h-full w-full">
+                <p class="mt-4 font-bold">Wajah Sebenarnya Hilirisasi Nikel ala Cawapres Menurut OMS</p>
+            </div>
+            
+            <div class=" w-72 h-full sm:flex-shrink flex-shrink-0 snap-center">
+                <a class="text-sm font-semibold">SUBSTANSI HUKUM</a>
+                <img src="assets/example-2.png" alt="Wallacea Terminal" class=" object-cover object-center h-full w-full">
+                <p class="mt-4 font-bold">Wajah Sebenarnya Hilirisasi Nikel ala Cawapres Menurut OMS</p>
+            </div>
+            <div class=" w-72 h-full sm:flex-shrink flex-shrink-0 snap-center">
+                <a class="text-sm font-semibold">TINJAUAN HUKUM</a>
+                <img src="assets/example-2.png" alt="Wallacea Terminal" class=" object-cover object-center h-full w-full">
+                <p class="mt-4 font-bold">Wajah Sebenarnya Hilirisasi Nikel ala Cawapres Menurut OMS</p>
+            </div>
+            <div class=" w-72 h-full sm:flex-shrink flex-shrink-0 snap-center">
+                <a class="text-sm font-semibold">PERATURAN</a>
+                <img src="assets/example-2.png" alt="Wallacea Terminal" class=" object-cover object-center h-full w-full">
+                <p class="mt-4 font-bold">Wajah Sebenarnya Hilirisasi Nikel ala Cawapres Menurut OMS</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- data / map -->
+    <div class="max-w-6xl mx-auto px-4 mt-24">
+        <div class="flex items-center gap-2">
+            <a href="#" class="text-4xl font-bold text-biru-wallacea">DATA</a>
+            <div class="rounded-full h-8 w-8 border-2 border-biru flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-4 h-4 ">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                  </svg>                  
+            </div>
+        </div>
+        <div id="map" class="h-[80vh] w-full mt-4"></div>
+    </div>
+
+
+    <!-- footer -->
+    <footer class="bg-biru-wallacea mt-24  text-white">
+        <div class="max-w-5xl mx-auto px-4 ">
+            <div class="w-full flex sm:justify-center justify-start">
+                <img src="assets/logo-wallacea-putih.png" alt="Wallacea Terminal" class="h-12 mt-12">
+            </div>
+            <div class="flex sm:flex-row flex-col gap-4 justify-between mt-12">
+                <div class="flex flex-col">
+                    <a class="font-semibold">NEWS</a>
+                    <a class="mt-4">Internasional</a>
+                    <a>Nasional</a>
+                </div>
+                <div class="flex flex-col">
+                    <a class="font-semibold">RISET</a>
+                    <a class="mt-4">Jurnal Penilitian</a>
+                    <a>Artikel Ilmiah</a>
+                </div>
+
+                <div class="flex flex-col">
+                    <a class="font-semibold">AKSI</a>
+                    <a class="mt-4">Rencana Strategis</a>
+                    <a>Infografis</a>
+                </div>
+
+                <div class="flex flex-col">
+                    <a class="font-semibold">REGULASI</a>
+                    <a class="mt-4">Legal Brief Hukum Pertambangan</a>
+                    <a>Substansi Hukum Pertambangan</a>
+                    <a>Tinjauan Hukum Pertambangan</a>
+                    <a>Peraturan</a>
+                </div>
+
+                <div class="flex flex-col">
+                    <a class="font-semibold">DATA</a>
+                    <a class="mt-4">Spasial</a>
+                    <a>Non Spasial</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="border-t-2 border-kuning mt-12">
+            <div class="w-full flex justify-center py-6 text-xs">
+                @2024 | Wallacea | Auriga Nusantara
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        var map = L.map('map', {
+            center: [-3.096219, 128.533735],
+            zoom: 6,
+            // attributionControl: false,
+            zoomControl: false,
+            gestureHandling: true
+          });
+          var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            detectRetina: true,
+            attribution: 'Auriga Nusantara',
+            maxNativeZoom: 17
+        }).addTo(map);
+    </script>
+</body>
+</html>
